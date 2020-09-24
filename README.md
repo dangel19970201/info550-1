@@ -1,3 +1,2 @@
-## my first repository
-This is a toy repository for demo
-adding a new line
+## My first repository
+This is just a toy repository for demonstration.
