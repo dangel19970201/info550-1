@@ -8,7 +8,6 @@ There are 2 portions to this analysis:
 1. Descriptive analysis to calculate prevalence of the 6 conditions. 
 2. Calculation of a mental health score for each patient
 
-** Execute the analysis** 
 To execute the analysis, from the project folder you can run
 Rscript -e "rmarkdown::render('HW4.Rmd')"
 This will create a file called HW4.html output in your directory that contains the results.
