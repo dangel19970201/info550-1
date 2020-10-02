@@ -1,0 +1,72 @@
+---
+title: "Homework 4"
+author: "Manasvi Sundar"
+date: "`r format(Sys.Date(), '%Y-%m-%d')`"
+output: html_document
+---
+
+# Introduction 
+## Data used
+In this activity, I have used a dataset which records the presence/absence of various mental conditions among 279 patients enrolled in an observational study. The dataset has 256 variables, out of which some indicate presence/absence of mental conditions such as PTSD, depression, psychosis, bipolar disorder, panic disorder and anxiety. For each condition, there are details of further classification and medications taken for the condition. 
+
+## Aim of analysis
+My first aim today is to create a summary table to indicate the prevalence of each condition in our study sample. 
+My second aim to calculate a mental health score for each patient based on the presence/absence of mental health disorders. 
+
+
+# Descriptive Analysis
+## Loading the required dataset
+We now load the datafile which is in csv format by using read.csv() function. Since the dataset has several variables which are not applicable to our aim, we create a subset of only variables we intend to use.
+
+```{r, load-data, results = FALSE }
+# loading required data
+mydata <- read.csv('F:/INFO550/Outcomes.csv')
+
+# subsetting only required variables
+subdata <- subset(mydata, select = c(patid, SCID_ptsd, SCID_depression, SCID_psychhis, SCID_Bipolar1, SCID_PanicDisorder, SCID_AnxietyGMC))
+dim(subdata)
+```
+
+We now have a dataset of 279 observations and 7 variables. Since the dataset has already been cleaned, there are no missing values and we do not need to clean the data any further. 
+
+To tabulate the presence/absence of the conditions, we use the table() function for each variable. The variables have been coded as 1 for 'yes' and 0 for 'no'.  
+
+```{r, analysis, results = FALSE}
+table(subdata$SCID_ptsd, useNA = "ifany")
+table(subdata$SCID_depression, useNA = "ifany")
+table(subdata$SCID_psychhis, useNA = "ifany")
+table(subdata$SCID_Bipolar1, useNA = "ifany")
+table(subdata$SCID_PanicDisorder, useNA = "ifany")
+table(subdata$SCID_AnxietyGMC, useNA = "ifany")
+```
+## Prevalence of disorders in our study sample
+
+Condition         | Present in (%)   | Absent in (%)
+------------------|------------------|--------------------
+PTSD              | 63 (22.6%)       | 216 (77.4%)
+Depression        | 59 (21.1%)       | 220 (78.9%)
+Psychosis         | 51 (18.3%)       | 228 (81.7%)
+Bipolar Disorder  |	4 (1.4%)         | 275 (98.6%)
+Panic Disorder    | 11 (3.9%)        | 268 (96.1%)
+Anxiety           | 1 (0.4%)         | 278 (99.6%)
+
+
+# Calculating a score 
+
+We will not calculate a score for each patient based on the presence/absence of various disorders, since one person may have multiple disorders. 
+
+```{r, calculating-score, results = FALSE}
+subdata$score <- subdata$SCID_depression*1 + subdata$SCID_ptsd*3 + subdata$SCID_psychhis*5 + subdata$SCID_Bipolar1*5 + subdata$SCID_PanicDisorder*4 + subdata$SCID_AnxietyGMC*2
+
+table(subdata$score, useNA = "ifany")
+mean(subdata$score)
+sd(subdata$score)
+```
+
+# Conclusion
+
+From the table, it can be concluded that PTSD was most prevalent in the study population (22.6%), followed by depression (21.1%). Anxiety was the least prevalent with only 0.4% of the study population with the condition. 
+
+From our score calculated, the mean score was 2.04 (SD = 3.39). The minimum score was 0 and the maximum score was 14. 
+
+
